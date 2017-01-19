@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -28,8 +29,8 @@ import java.util.ArrayList;
 public class MainActivity extends ListActivity {
 
     static MainActivity main_activity;
-    ArrayList<String> listItems=new ArrayList<String>();
-    ArrayAdapter<String> adapter;
+    ArrayList<Business> business_list=new ArrayList<>();
+    ArrayAdapter<Business> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class MainActivity extends ListActivity {
 
         adapter=new MyAdapter(this,
                 R.layout.thelinelayoutfile,
-                listItems);
+                business_list);
         setListAdapter(adapter);
 
 
@@ -51,13 +52,9 @@ public class MainActivity extends ListActivity {
         getBusinesses(email, token);
     }
 
-    public void addItems(View v) {
-        listItems.clear();
-        adapter.notifyDataSetChanged();
-    }
-
     void getBusinesses(String email, String auth_token)
     {
+        business_list.clear();
         String url = getString(R.string.base_url) + "/api/v1/examples/get_businesses?user_token="+auth_token+"&user_email="+email;
 
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
@@ -68,12 +65,10 @@ public class MainActivity extends ListActivity {
                     JSONArray businesses = response.getJSONArray("businesses");
 
                     for(int i=0;i<businesses.length();i++) {
-                        String list_text = businesses.getJSONObject(i).getString("name");
-                        list_text+=": ";
-                        list_text+=businesses.getJSONObject(i).getString("description");
-                        list_text+=": ";
-                        list_text+=businesses.getJSONObject(i).getJSONObject("image").getString("url");
-                        listItems.add(list_text);
+                        business_list.add(new Business(Integer.parseInt(businesses.getJSONObject(i).getString("id")),
+                                businesses.getJSONObject(i).getString("name"),
+                                businesses.getJSONObject(i).getString("description"),
+                                businesses.getJSONObject(i).getJSONObject("image").getString("url")));
                     }
                     adapter.notifyDataSetChanged();
                 }catch(Exception e)
@@ -90,6 +85,16 @@ public class MainActivity extends ListActivity {
         });
 
         Volley.newRequestQueue(this).add(jsonRequest);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        Log.d("Clicked:", position + "");
+        Log.d("Clicked:",id+"");
+        Log.d("Clicked:",business_list.get(position).id+"");
+        Log.d("Clicked:",business_list.get(position).name);
     }
 
     @Override

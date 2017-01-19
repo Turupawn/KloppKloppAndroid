@@ -16,10 +16,10 @@ import java.util.ArrayList;
 /**
  * Created by turupawn on 1/17/17.
  */
-class MyAdapter extends ArrayAdapter<String> {
+class MyAdapter extends ArrayAdapter<Business> {
 
     Context context;
-    public MyAdapter(Context context, int textViewResourceId, ArrayList<String> objects) {
+    public MyAdapter(Context context, int textViewResourceId, ArrayList<Business> objects) {
         super(context, textViewResourceId, objects);
         this.context = context;
     }
@@ -28,36 +28,18 @@ class MyAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         if( convertView== null ) convertView = LayoutInflater.from(context).inflate(R.layout.thelinelayoutfile, null);
 
-        TextView myTextView1 = (TextView)convertView.findViewById(R.id.yourFirstTextView);
-        myTextView1.setText(getItem(position)); //getItem gets the item (String in this case) from the list we specified when creating the adapter.
-        //position is the current position of the list, and since each position has two items, we have to multiply the position by 2 to get to the right item-list-position.
+        TextView myTextView1 = (TextView)convertView.findViewById(R.id.business_name);
+        TextView myTextView2 = (TextView)convertView.findViewById(R.id.business_description);
+        myTextView1.setText(getItem(position).name);
+        myTextView2.setText(getItem(position).description);
 
 
         ImageLoader mImageLoader;
-        ImageView mImageView;
         NetworkImageView mNetworkImageView;
-
-        mNetworkImageView = (NetworkImageView)convertView.findViewById(R.id.networkImageViewOther);
+        mNetworkImageView = (NetworkImageView)convertView.findViewById(R.id.business_image);
         mImageLoader = MySingleton.getInstance(MainActivity.main_activity).getImageLoader();
-
-        String image = MainActivity.main_activity.getString(R.string.base_url);
-        String shit = getItem(position);
-        boolean fuck = false;
-        for(int i=0;i<shit.length();i++)
-        {
-            if(shit.charAt(i)=='/')
-                fuck = true;
-            if(fuck)
-            {
-                image+=shit.charAt(i);
-            }
-        }
-
-        TextView myTextView2 = (TextView)convertView.findViewById(R.id.yourSecondTextView);
-        myTextView2.setText(image);
-        myTextView2.setBackgroundColor(0xFFFF00FF); //Any color. Use setBackgroundResource to use a resource object (drawable etc.)
-
-        mNetworkImageView.setImageUrl(image, mImageLoader);
+        String image_url = MainActivity.main_activity.getString(R.string.base_url)+getItem(position).image_url;
+        mNetworkImageView.setImageUrl(image_url, mImageLoader);
 
         return convertView;
     }
