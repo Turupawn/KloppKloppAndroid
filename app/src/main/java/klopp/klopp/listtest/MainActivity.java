@@ -1,6 +1,7 @@
 package klopp.klopp.listtest;
 
 import android.app.ListActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -42,54 +43,22 @@ public class MainActivity extends ListActivity {
                 R.layout.thelinelayoutfile,
                 listItems);
         setListAdapter(adapter);
+
+
+        SharedPreferences prefs = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE);
+        String email = prefs.getString(getString(R.string.email_preferences_key), null);
+        String token = prefs.getString(getString(R.string.token_preferences_key), null);
+        getBusinesses(email, token);
     }
 
     public void addItems(View v) {
         listItems.clear();
         adapter.notifyDataSetChanged();
-
-        String url = getString(R.string.base_url) + "/api/v1/users/sign_in";
-
-        JSONObject user_param = new JSONObject();
-        JSONObject params = new JSONObject();
-        try {
-            user_param.put("password", "111111");
-            user_param.put("email", "a@a.com");
-            params.put("user",user_param);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        Log.d("Jsontest", params.toString());
-
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, params.toString(), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                //TODO: handle success
-                try {
-                    String auth_token = response.getJSONObject("user").getString("authentication_token");
-                    Log.d("Auth token", auth_token);
-
-                    getBusinesses(auth_token);
-                }catch(Exception e)
-                {
-
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                //TODO: handle failure
-            }
-        });
-
-        Volley.newRequestQueue(this).add(jsonRequest);
     }
 
-    void getBusinesses(String auth_token)
+    void getBusinesses(String email, String auth_token)
     {
-        String url = getString(R.string.base_url) + "/api/v1/examples/get_businesses?user_token="+auth_token+"&user_email=a@a.com";
+        String url = getString(R.string.base_url) + "/api/v1/examples/get_businesses?user_token="+auth_token+"&user_email="+email;
 
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
             @Override

@@ -5,16 +5,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/networkImageView"
-        android:layout_width="150dp"
-        android:layout_height="170dp"
-        android:layout_centerHorizontal="true" />
-
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView" />
-
     <Button
         android:id="@+id/addBtn"
         android:text="Refresh"
