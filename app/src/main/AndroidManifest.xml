@@ -68,11 +68,13 @@
         </activity>
         <activity
             android:name=".ScanRewardActivity"
-            android:label="@string/title_activity_scan_reward" >
+            android:label="@string/title_activity_scan_reward"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ScanRewardSuccessfulActivity"
-            android:label="@string/title_activity_scan_reward_successful" >
+            android:label="@string/title_activity_scan_reward_successful"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

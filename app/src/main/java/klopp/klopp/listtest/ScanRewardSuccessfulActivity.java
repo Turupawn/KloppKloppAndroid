@@ -1,13 +1,21 @@
 package klopp.klopp.listtest;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import klopp.klopp.listtest.customfonts.MyRegularText;
 
@@ -38,9 +46,6 @@ public class ScanRewardSuccessfulActivity extends AppCompatActivity {
         reward = RewardsActivity.rewards_list.get(Integer.parseInt(getIntent().getStringExtra("reward_index")));
 
         mImageLoader = MySingleton.getInstance(BusinessActivity.main_activity).getImageLoader();
-        mNetworkImageView.setImageUrl(BusinessActivity.main_activity.getString(R.string.base_url) + business.image_url, mImageLoader);
-
-        message.setText("¡Has solicitado un " + reward.name + " exitosamente!");
 
         exit_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +53,8 @@ public class ScanRewardSuccessfulActivity extends AppCompatActivity {
                 scan_reward_successful_activity.finish();
             }
         });
+
+        sendRequest();
     }
 
     @Override
@@ -70,5 +77,49 @@ public class ScanRewardSuccessfulActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    void sendRequest()
+    {
+        String url = getString(R.string.base_url) + "/api/v1/rewards/costumer_request";
+
+        SharedPreferences prefs = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE);
+        String token = prefs.getString(getString(R.string.token_preferences_key), null);
+        String email = prefs.getString(getString(R.string.email_preferences_key), null);
+
+        JSONObject params = new JSONObject();
+        try {
+            params.put("user_token", token);
+            params.put("user_email", email);
+            params.put("reward_id", reward.id);
+        }catch (Exception e)
+        {
+            message.setText("Error");
+        }
+
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, params.toString(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    onRequestSuccsessful();
+                }catch(Exception e)
+                {
+                    message.setText("Error");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                message.setText("Error");
+            }
+        });
+        Volley.newRequestQueue(ScanRewardSuccessfulActivity.this).add(jsonRequest);
+    }
+
+    void onRequestSuccsessful()
+    {
+        mNetworkImageView.setImageUrl(BusinessActivity.main_activity.getString(R.string.base_url) + business.image_url, mImageLoader);
+        message.setText("¡Has solicitado un " + reward.name + " exitosamente!");
     }
 }

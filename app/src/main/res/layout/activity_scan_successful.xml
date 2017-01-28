@@ -33,6 +33,7 @@
     </FrameLayout>
 
     <klopp.klopp.listtest.customfonts.MyRegularText
+        android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -40,7 +41,7 @@
         android:layout_marginRight="70dp"
         android:textAlignment="center"
         android:padding="14dp"
-        android:text="¡Has solicitado Klopps exitosamente!"
+        android:text="Espera un momento..."
         android:textSize="16dp"
         android:textColor="@color/text_and_icons"
         />

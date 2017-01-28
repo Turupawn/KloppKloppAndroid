@@ -1,6 +1,7 @@
 package klopp.klopp.listtest;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,8 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import klopp.klopp.listtest.customfonts.MyRegularText;
 
@@ -22,6 +31,7 @@ public class ScanBusinessSuccessfulActivity extends AppCompatActivity {
     ImageLoader mImageLoader;
 
     MyRegularText exit_button;
+    MyRegularText message;
 
     ScanBusinessSuccessfulActivity scan_business_successful_activity;
 
@@ -34,12 +44,12 @@ public class ScanBusinessSuccessfulActivity extends AppCompatActivity {
 
         exit_button = (MyRegularText)findViewById(R.id.button_exit);
         mNetworkImageView = (NetworkImageView)findViewById(R.id.business_image);
+        message = (MyRegularText)findViewById(R.id.message);
 
         business = BusinessActivity.business_list.get(Integer.parseInt(getIntent().getStringExtra("business_index")));
 
 
         mImageLoader = MySingleton.getInstance(BusinessActivity.main_activity).getImageLoader();
-        mNetworkImageView.setImageUrl(BusinessActivity.main_activity.getString(R.string.base_url)+business.image_url, mImageLoader);
 
         exit_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +57,8 @@ public class ScanBusinessSuccessfulActivity extends AppCompatActivity {
                 scan_business_successful_activity.finish();
             }
         });
+
+        sendRequest();
     }
 
     @Override
@@ -69,5 +81,49 @@ public class ScanBusinessSuccessfulActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    void sendRequest()
+    {
+        String url = getString(R.string.base_url) + "/api/v1/klopps/costumer_request";
+
+        SharedPreferences prefs = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE);
+        String token = prefs.getString(getString(R.string.token_preferences_key), null);
+        String email = prefs.getString(getString(R.string.email_preferences_key), null);
+
+        JSONObject params = new JSONObject();
+        try {
+            params.put("user_token", token);
+            params.put("user_email", email);
+            params.put("business_id", business.id);
+        }catch (Exception e)
+        {
+            message.setText("Error");
+        }
+
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, params.toString(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    onRequestSuccsessful();
+                }catch(Exception e)
+                {
+                    message.setText("Error");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                message.setText("Error");
+            }
+        });
+        Volley.newRequestQueue(ScanBusinessSuccessfulActivity.this).add(jsonRequest);
+    }
+
+    void onRequestSuccsessful()
+    {
+        mNetworkImageView.setImageUrl(BusinessActivity.main_activity.getString(R.string.base_url) + business.image_url, mImageLoader);
+        message.setText("¡Has solicitado Klopps exitosamente!");
     }
 }
