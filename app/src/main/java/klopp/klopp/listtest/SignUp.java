@@ -102,6 +102,8 @@ public class SignUp extends AppCompatActivity {
 
                         } catch (Exception e) {
                             e.printStackTrace();
+
+                            signup_error_message.setText("Error al crear usuario.");
                         }
                     }
                 }, new Response.ErrorListener() {

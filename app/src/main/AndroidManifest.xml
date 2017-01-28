@@ -52,19 +52,27 @@
         <activity
             android:name=".RewardsActivity"
             android:label="@string/title_activity_rewards"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ScanBusinessSuccessfulActivity"
             android:label="@string/title_activity_scan_successful"
-            android:launchMode = "singleInstance"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ScanBusinessFailActivity"
             android:label="@string/title_activity_scan_fail"
-            android:launchMode = "singleInstance"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ScanRewardActivity"
+            android:label="@string/title_activity_scan_reward" >
+        </activity>
+        <activity
+            android:name=".ScanRewardSuccessfulActivity"
+            android:label="@string/title_activity_scan_reward_successful" >
         </activity>
     </application>
 

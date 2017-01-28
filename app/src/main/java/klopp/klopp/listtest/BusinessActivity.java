@@ -141,7 +141,6 @@ public class BusinessActivity extends ListActivity {
 
 
     public void requestKlopps(View view) {
-        Log.d("Orale", "Request Klopps");
         Intent it = new Intent(BusinessActivity.this, ScanBusinessActivity.class);
         startActivity(it);
     }

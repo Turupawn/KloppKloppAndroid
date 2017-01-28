@@ -4,13 +4,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import klopp.klopp.listtest.customfonts.MyRegularText;
 
 public class ScanBusinessFailActivity extends AppCompatActivity {
+
+    MyRegularText exit_button;
+    ScanBusinessFailActivity scan_business_fail_activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_fail);
+
+        exit_button = (MyRegularText)findViewById(R.id.button_exit);
+
+        scan_business_fail_activity = this;
+
+        exit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scan_business_fail_activity.finish();
+            }
+        });
     }
 
     @Override

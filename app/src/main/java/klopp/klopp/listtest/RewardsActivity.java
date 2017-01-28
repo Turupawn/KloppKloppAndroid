@@ -1,6 +1,7 @@
 package klopp.klopp.listtest;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 public class RewardsActivity extends ListActivity {
 
-    ArrayList<Reward> rewards_list=new ArrayList<>();
+    static ArrayList<Reward> rewards_list=new ArrayList<>();
     ArrayAdapter<Reward> adapter;
 
     @Override
@@ -83,10 +84,9 @@ public class RewardsActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        Log.d("Clicked:", position + "");
-        Log.d("Clicked:",id+"");
-        Log.d("Clicked:",rewards_list.get(position).id+"");
-        Log.d("Clicked:", rewards_list.get(position).name);
+        Intent it = new Intent(RewardsActivity.this, ScanRewardActivity.class);
+        it.putExtra("reward_index", position+"");
+        startActivity(it);
 
     }
 

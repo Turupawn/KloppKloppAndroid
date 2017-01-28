@@ -20,19 +20,20 @@
             android:layout_height="240dp"
             android:background="@drawable/home1"/>
 
-<!--
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_white"
-            android:layout_gravity="center|top"
-            android:layout_marginTop="60dp"/>
--->
+        <!--
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_white"
+                    android:layout_gravity="center|top"
+                    android:layout_marginTop="60dp"/>
+        -->
 
 
     </FrameLayout>
 
     <klopp.klopp.listtest.customfonts.MyRegularText
+        android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -40,7 +41,7 @@
         android:layout_marginRight="70dp"
         android:textAlignment="center"
         android:padding="14dp"
-        android:text="¡Has solicitado Klopps exitosamente!"
+        android:text="¡Has solicitado un premio exitosamente!"
         android:textSize="16dp"
         android:textColor="@color/text_and_icons"
         />

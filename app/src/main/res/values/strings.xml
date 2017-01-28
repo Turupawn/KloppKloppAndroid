@@ -13,4 +13,6 @@
     <string name="title_activity_rewards">RewardsActivity</string>
     <string name="title_activity_scan_successful">ScanSuccessfulActivity</string>
     <string name="title_activity_scan_fail">ScanFailActivity</string>
+    <string name="title_activity_scan_reward">ScanRewardActivity</string>
+    <string name="title_activity_scan_reward_successful">ScanRewardSuccessfulActivity</string>
 </resources>
