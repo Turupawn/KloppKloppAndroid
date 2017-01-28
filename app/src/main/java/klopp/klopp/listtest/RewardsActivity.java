@@ -8,72 +8,64 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends ListActivity {
+public class RewardsActivity extends ListActivity {
 
-    static MainActivity main_activity;
-    ArrayList<Business> business_list=new ArrayList<>();
-    ArrayAdapter<Business> adapter;
+    ArrayList<Reward> rewards_list=new ArrayList<>();
+    ArrayAdapter<Reward> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_rewards);
 
-        main_activity = this;
-
-        setContentView(R.layout.activity_main);
-
-        adapter=new MyAdapter(this,
-                R.layout.thelinelayoutfile,
-                business_list);
+        adapter=new RewardsAdapter(this,
+                R.layout.business_row,
+                rewards_list);
         setListAdapter(adapter);
 
 
         SharedPreferences prefs = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE);
         String email = prefs.getString(getString(R.string.email_preferences_key), null);
         String token = prefs.getString(getString(R.string.token_preferences_key), null);
-        getBusinesses(email, token);
+        int business_id = Integer.parseInt(getIntent().getStringExtra("business_id"));
+        setRewards(email, token, business_id);
     }
 
-    void getBusinesses(String email, String auth_token)
+    void setRewards(String email, String auth_token, int business_id)
     {
-        business_list.clear();
-        String url = getString(R.string.base_url) + "/api/v1/examples/get_businesses?user_token="+auth_token+"&user_email="+email;
-
+        rewards_list.clear();
+        String url = getString(R.string.base_url) + "/api/v1/users/get_rewards?user_token="+auth_token+"&user_email="+email+"&business_id="+business_id;
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 //TODO: handle success
                 try {
-                    JSONArray businesses = response.getJSONArray("businesses");
-
+                    JSONArray businesses = response.getJSONArray("rewards");
                     for(int i=0;i<businesses.length();i++) {
-                        business_list.add(new Business(Integer.parseInt(businesses.getJSONObject(i).getString("id")),
-                                businesses.getJSONObject(i).getString("name"),
-                                businesses.getJSONObject(i).getString("description"),
-                                businesses.getJSONObject(i).getJSONObject("image").getString("url")));
+                        rewards_list.add(new Reward(Integer.parseInt(businesses.getJSONObject(i).getString("id")),
+                                                        businesses.getJSONObject(i).getString("name"),
+                                                        Integer.parseInt(businesses.getJSONObject(i).getString("business_id")),
+                                                        Integer.parseInt(businesses.getJSONObject(i).getString("klopps")),
+                                                        businesses.getJSONObject(i).getJSONObject("image").getString("url"),
+                                                        true));
                     }
                     adapter.notifyDataSetChanged();
                 }catch(Exception e)
                 {
-
+                    e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
@@ -93,14 +85,15 @@ public class MainActivity extends ListActivity {
 
         Log.d("Clicked:", position + "");
         Log.d("Clicked:",id+"");
-        Log.d("Clicked:",business_list.get(position).id+"");
-        Log.d("Clicked:",business_list.get(position).name);
+        Log.d("Clicked:",rewards_list.get(position).id+"");
+        Log.d("Clicked:", rewards_list.get(position).name);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_rewards, menu);
         return true;
     }
 
@@ -112,9 +105,9 @@ public class MainActivity extends ListActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        //if (id == R.id.action_settings) {
-        //    return true;
-        //}
+        if (id == R.id.action_settings) {
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

@@ -3,6 +3,7 @@
     package="klopp.klopp.listtest" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!--
      To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
@@ -19,10 +20,9 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".BusinessActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-
+            android:screenOrientation="portrait" >
         </activity>
 
         <meta-data
@@ -32,17 +32,39 @@
         <activity
             android:name=".Login"
             android:label="@string/title_activity_login"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".SignUp"
             android:label="@string/title_activity_sign_up"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ScanBusinessActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".RewardsActivity"
+            android:label="@string/title_activity_rewards"
             android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ScanBusinessSuccessfulActivity"
+            android:label="@string/title_activity_scan_successful"
+            android:launchMode = "singleInstance"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ScanBusinessFailActivity"
+            android:label="@string/title_activity_scan_fail"
+            android:launchMode = "singleInstance"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

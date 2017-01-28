@@ -1,12 +1,13 @@
 package klopp.klopp.listtest;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -37,13 +38,13 @@ public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         signup = (TextView)findViewById(R.id.signup);
         signin = (TextView)findViewById(R.id.signin);
-        fb = (TextView)findViewById(R.id.fb);
-        account = (TextView)findViewById(R.id.account);
         email = (EditText)findViewById(R.id.email);
         password = (EditText)findViewById(R.id.password);
 
@@ -54,10 +55,9 @@ public class Login extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 Intent it = new Intent(Login.this, SignUp.class);
                 startActivity(it);
+                login_class.finish();
             }
         });
 
@@ -83,42 +83,34 @@ public class Login extends AppCompatActivity {
                 JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, params.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //TODO: handle success
                         try {
                             String auth_token = response.getJSONObject("user").getString("authentication_token");
-                            Log.d("Auth token", auth_token);
-
+                            String username = response.getJSONObject("user").getString("username");
 
                             SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE).edit();
                             editor.putString(getString(R.string.email_preferences_key), email.getText().toString());
+                            editor.putString(getString(R.string.username_preferences_key), username);
                             editor.putString(getString(R.string.token_preferences_key), auth_token);
                             editor.commit();
 
-
-                            Intent it = new Intent(Login.this, MainActivity.class);
+                            Intent it = new Intent(Login.this, BusinessActivity.class);
                             startActivity(it);
+                            login_class.finish();
 
                         }catch(Exception e)
                         {
-
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
-                        //TODO: handle failure
+                        MyRegularText login_error_message = (MyRegularText)findViewById(R.id.login_error_message);
+                        login_error_message.setText("Error al iniciar sesión.");
                     }
                 });
-
                 Volley.newRequestQueue(Login.this).add(jsonRequest);
-
             }
         });
-
-
-
     }
-
-
 }

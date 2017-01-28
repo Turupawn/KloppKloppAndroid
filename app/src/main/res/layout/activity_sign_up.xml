@@ -17,7 +17,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="260dp"
-            android:background="@drawable/banner"/>
+            android:background="@drawable/login_banner"/>
 
 
         <LinearLayout
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Sign in"
+                android:text="Iniciar sesión"
                 android:textColor="#fff"
                 android:textSize="16dp"
                 android:padding="16dp"/>
@@ -49,8 +49,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Sign Up"
-                android:textColor="#087272"
+                android:text="Crear cuenta"
+                android:textColor="@color/dark_primary_color"
                 android:textSize="16dp"
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -91,6 +91,7 @@
         android:layout_marginRight="20dp"
         android:drawableLeft="@drawable/ic_shapes_2"
         android:drawablePadding="16dp"
+        android:singleLine="true"
         />
 
     <klopp.klopp.listtest.customfonts.MyEditText
@@ -108,6 +109,7 @@
         android:layout_marginRight="20dp"
         android:drawableLeft="@drawable/ic_shape_1"
         android:drawablePadding="16dp"
+        android:singleLine="true"
         />
 
 
@@ -126,46 +128,38 @@
         android:padding="12dp"
         android:drawableLeft="@drawable/ic_tool_6"
         android:drawablePadding="16dp"
+        android:singleLine="true"
         />
 
 
-    <TextView
-        android:id="@+id/account"
+    <klopp.klopp.listtest.customfonts.MyRegularText
+        android:id="@+id/buttonsignup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded1"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="70dp"
         android:layout_marginRight="70dp"
         android:textAlignment="center"
         android:padding="14dp"
-        android:text="Creat account"
+        android:text="Crear cuenta"
         android:textSize="16dp"
         android:textColor="#fff"
         />
 
-
-
-
-
-    <klopp.klopp.listtest.customfonts.MyTextView
-        android:id="@+id/fb"
-        android:layout_width="wrap_content"
+    <klopp.klopp.listtest.customfonts.MyRegularText
+        android:id="@+id/signup_error_message"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Connect with Facebook"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:textAlignment="center"
+        android:padding="14dp"
+        android:text=""
         android:textSize="16dp"
-        android:layout_gravity="center" />
-
-
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-
-
-
+        android:textColor="@color/text_and_icons"
+        />
 
 
 </LinearLayout>
