@@ -1,4 +1,4 @@
-package klopp.klopp.listtest;
+package klopp.klopp.klopp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,7 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import klopp.klopp.listtest.customfonts.MyRegularText;
+import klopp.klopp.klopp.customfonts.MyRegularText;
+import klopp.klopp.klopp.R;
 
 public class ScanBusinessFailActivity extends AppCompatActivity {
 

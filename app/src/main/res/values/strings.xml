@@ -1,10 +1,9 @@
 <resources>
-    <string name="app_name">Listtest</string>
-
+    <string name="app_name">Klopp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="base_url">http://klopp.co</string>
-    <string name="title_activity_login">Login</string>
+    <string name="title_activity_login">Klopp</string>
     <string name="title_activity_sign_up">SignUp</string>
     <string name="preferences_file">preferences_file</string>
     <string name="email_preferences_key">email</string>

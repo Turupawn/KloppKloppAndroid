@@ -1,4 +1,4 @@
-package klopp.klopp.listtest;
+package klopp.klopp.klopp;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -22,6 +22,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import klopp.klopp.klopp.R;
 
 public class BusinessActivity extends ListActivity {
 

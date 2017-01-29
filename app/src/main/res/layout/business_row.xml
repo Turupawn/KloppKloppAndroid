@@ -58,7 +58,7 @@
 
 
 
-            <customfonts.MyTextView2
+            <klopp.klopp.klopp.customfonts.MyTextView2
                 android:id="@+id/awesom"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -71,7 +71,7 @@
 
 
 
-            <customfonts.MyTextView2
+            <klopp.klopp.klopp.customfonts.MyTextView2
 
                 android:id="@+id/klopps"
                 android:layout_width="wrap_content"

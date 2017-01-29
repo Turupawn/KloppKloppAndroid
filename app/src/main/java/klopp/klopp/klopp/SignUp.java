@@ -1,13 +1,11 @@
-package klopp.klopp.listtest;
+package klopp.klopp.klopp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -20,60 +18,66 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import klopp.klopp.listtest.customfonts.MyRegularText;
+import klopp.klopp.klopp.customfonts.MyRegularText;
+import klopp.klopp.klopp.R;
 
+public class SignUp extends AppCompatActivity {
 
-public class Login extends AppCompatActivity {
 
     private TextView signup;
     private TextView signin;
     private TextView fb;
     private TextView account;
     private EditText email;
+    private EditText username;
     private EditText password;
+    private EditText user;
 
-    MyRegularText login_button;
+    SignUp signup_class;
 
-    Login login_class;
+    MyRegularText signup_button;
+    MyRegularText signup_error_message;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_sign_up);
+
+        signup_class = this;
 
         signup = (TextView)findViewById(R.id.signup);
         signin = (TextView)findViewById(R.id.signin);
         email = (EditText)findViewById(R.id.email);
         password = (EditText)findViewById(R.id.password);
+        user = (EditText)findViewById(R.id.user);
+        signup_error_message = (MyRegularText) findViewById(R.id.login_error_message);
 
-        login_button = (MyRegularText)findViewById(R.id.buttonsignin);
+        signup_button = (MyRegularText)findViewById(R.id.buttonsignup);
 
-        login_class = this;
-
-        signup.setOnClickListener(new View.OnClickListener() {
+        signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(Login.this, SignUp.class);
+
+                Intent it = new Intent(SignUp.this, Login.class);
                 startActivity(it);
-                login_class.finish();
+                signup_class.finish();
             }
         });
 
-
-        login_button.setOnClickListener(new View.OnClickListener() {
+        signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String url = getString(R.string.base_url) + "/api/v1/users/sign_in";
+                String url = getString(R.string.base_url) + "/api/v1/users";
 
                 JSONObject user_param = new JSONObject();
                 JSONObject params = new JSONObject();
                 try {
                     user_param.put("password", password.getText());
                     user_param.put("email", email.getText());
-                    params.put("user",user_param);
+                    user_param.put("username", user.getText());
+                    params.put("user", user_param);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -84,8 +88,8 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            String auth_token = response.getJSONObject("user").getString("authentication_token");
-                            String username = response.getJSONObject("user").getString("username");
+                            String auth_token = response.getJSONObject("data").getString("authentication_token");
+                            String username = response.getJSONObject("data").getString("username");
 
                             SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE).edit();
                             editor.putString(getString(R.string.email_preferences_key), email.getText().toString());
@@ -93,23 +97,25 @@ public class Login extends AppCompatActivity {
                             editor.putString(getString(R.string.token_preferences_key), auth_token);
                             editor.commit();
 
-                            Intent it = new Intent(Login.this, BusinessActivity.class);
+                            Intent it = new Intent(SignUp.this, BusinessActivity.class);
                             startActivity(it);
-                            login_class.finish();
+                            signup_class.finish();
 
-                        }catch(Exception e)
-                        {
+                        } catch (Exception e) {
+                            e.printStackTrace();
+
+                            signup_error_message.setText("Error al crear usuario.");
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
-                        MyRegularText login_error_message = (MyRegularText)findViewById(R.id.login_error_message);
-                        login_error_message.setText("Error al iniciar sesión.");
+
+                        signup_error_message.setText("Error al crear usuario.");
                     }
                 });
-                Volley.newRequestQueue(Login.this).add(jsonRequest);
+                Volley.newRequestQueue(SignUp.this).add(jsonRequest);
             }
         });
     }

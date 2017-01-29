@@ -1,15 +1,11 @@
-package klopp.klopp.listtest;
+package klopp.klopp.klopp;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -19,42 +15,43 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import klopp.klopp.listtest.customfonts.MyRegularText;
+import klopp.klopp.klopp.customfonts.MyRegularText;
+import klopp.klopp.klopp.R;
 
-public class ScanBusinessSuccessfulActivity extends AppCompatActivity {
+public class ScanRewardSuccessfulActivity extends AppCompatActivity {
 
     Business business;
+    Reward reward;
     NetworkImageView mNetworkImageView;
     ImageLoader mImageLoader;
 
     MyRegularText exit_button;
     MyRegularText message;
 
-    ScanBusinessSuccessfulActivity scan_business_successful_activity;
+    ScanRewardSuccessfulActivity scan_reward_successful_activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan_successful);
+        setContentView(R.layout.activity_scan_reward_successful);
 
-        scan_business_successful_activity=this;
+        scan_reward_successful_activity = this;
 
         exit_button = (MyRegularText)findViewById(R.id.button_exit);
-        mNetworkImageView = (NetworkImageView)findViewById(R.id.business_image);
         message = (MyRegularText)findViewById(R.id.message);
+        mNetworkImageView = (NetworkImageView)findViewById(R.id.business_image);
 
         business = BusinessActivity.business_list.get(Integer.parseInt(getIntent().getStringExtra("business_index")));
-
+        reward = RewardsActivity.rewards_list.get(Integer.parseInt(getIntent().getStringExtra("reward_index")));
 
         mImageLoader = MySingleton.getInstance(BusinessActivity.main_activity).getImageLoader();
 
         exit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scan_business_successful_activity.finish();
+                scan_reward_successful_activity.finish();
             }
         });
 
@@ -85,7 +82,7 @@ public class ScanBusinessSuccessfulActivity extends AppCompatActivity {
 
     void sendRequest()
     {
-        String url = getString(R.string.base_url) + "/api/v1/klopps/costumer_request";
+        String url = getString(R.string.base_url) + "/api/v1/rewards/costumer_request";
 
         SharedPreferences prefs = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE);
         String token = prefs.getString(getString(R.string.token_preferences_key), null);
@@ -95,7 +92,7 @@ public class ScanBusinessSuccessfulActivity extends AppCompatActivity {
         try {
             params.put("user_token", token);
             params.put("user_email", email);
-            params.put("business_id", business.id);
+            params.put("reward_id", reward.id);
         }catch (Exception e)
         {
             message.setText("Error");
@@ -118,12 +115,12 @@ public class ScanBusinessSuccessfulActivity extends AppCompatActivity {
                 message.setText("Error");
             }
         });
-        Volley.newRequestQueue(ScanBusinessSuccessfulActivity.this).add(jsonRequest);
+        Volley.newRequestQueue(ScanRewardSuccessfulActivity.this).add(jsonRequest);
     }
 
     void onRequestSuccsessful()
     {
         mNetworkImageView.setImageUrl(BusinessActivity.main_activity.getString(R.string.base_url) + business.image_url, mImageLoader);
-        message.setText("¡Has solicitado Klopps exitosamente!");
+        message.setText("¡Has solicitado un " + reward.name + " exitosamente!");
     }
 }

@@ -1,4 +1,4 @@
-package klopp.klopp.listtest.customfonts;
+package klopp.klopp.klopp.customfonts;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,26 +8,26 @@ import android.widget.TextView;
 /**
  * Created by one on 3/12/15.
  */
-public class MyRegularText extends TextView {
+public class MyTextView2 extends TextView {
 
-    public MyRegularText(Context context, AttributeSet attrs, int defStyle) {
+    public MyTextView2(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
-    public MyRegularText(Context context, AttributeSet attrs) {
+    public MyTextView2(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public MyRegularText(Context context) {
+    public MyTextView2(Context context) {
         super(context);
         init();
     }
 
     private void init() {
         if (!isInEditMode()) {
-            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Lato-Regular.ttf");
+            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Regular.ttf");
             setTypeface(tf);
         }
     }

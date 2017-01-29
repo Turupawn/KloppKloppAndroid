@@ -1,4 +1,4 @@
-package klopp.klopp.listtest;
+package klopp.klopp.klopp;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.ArrayList;
+
+import klopp.klopp.klopp.R;
 
 /**
  * Created by turupawn on 1/19/17.

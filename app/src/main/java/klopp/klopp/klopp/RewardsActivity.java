@@ -1,10 +1,9 @@
-package klopp.klopp.listtest;
+package klopp.klopp.klopp;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +20,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import klopp.klopp.klopp.R;
 
 public class RewardsActivity extends ListActivity {
 
