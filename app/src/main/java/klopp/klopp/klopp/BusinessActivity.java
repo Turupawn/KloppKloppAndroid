@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ public class BusinessActivity extends ListActivity {
     public static ArrayList<Business> business_list = new ArrayList<>();
     ArrayAdapter<Business> adapter;
     TextView username;
+    ImageView refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,37 @@ public class BusinessActivity extends ListActivity {
             public void onClick(View v) {
                 Intent it = new Intent(BusinessActivity.this, ScanBusinessActivity.class);
                 startActivity(it);
+            }
+        });
+
+        ImageView refresh = (ImageView)findViewById(R.id.refresh);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("Orale", "Testy");
+
+                 main_activity.adapter=new BusinessAdapter(main_activity,
+                        R.layout.business_row,
+                        business_list);
+                setListAdapter(adapter);
+
+                SharedPreferences prefs = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE);
+                String email = prefs.getString(getString(R.string.email_preferences_key), null);
+                String token = prefs.getString(getString(R.string.token_preferences_key), null);
+                setBusinesses(email, token);
+                /*
+                adapter=new BusinessAdapter(this,
+                        R.layout.business_row,
+                        business_list);
+                setListAdapter(adapter);
+
+                SharedPreferences prefs = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE);
+                String email = prefs.getString(getString(R.string.email_preferences_key), null);
+                String token = prefs.getString(getString(R.string.token_preferences_key), null);
+                setBusinesses(email, token);
+
+                Intent it = new Intent(BusinessActivity.this, ScanBusinessActivity.class);
+                startActivity(it);
+                */
             }
         });
 
@@ -148,6 +181,20 @@ public class BusinessActivity extends ListActivity {
     }
 
     public void refresh(View view) {
-        Log.d("Orale","Refresh");
+        Log.d("Orale","Testy");
+        /*
+        adapter=new BusinessAdapter(this,
+                R.layout.business_row,
+                business_list);
+        setListAdapter(adapter);
+
+        SharedPreferences prefs = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE);
+        String email = prefs.getString(getString(R.string.email_preferences_key), null);
+        String token = prefs.getString(getString(R.string.token_preferences_key), null);
+        setBusinesses(email, token);
+
+        Intent it = new Intent(BusinessActivity.this, ScanBusinessActivity.class);
+        startActivity(it);
+        */
     }
 }

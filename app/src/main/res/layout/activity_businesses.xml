@@ -7,15 +7,15 @@
     android:background="@color/white">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:orientation="vertical">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#8000">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#8000">
 
             <ImageView
                 android:id="@+id/image"
@@ -33,12 +33,21 @@
                 android:background="#99000000"/>
 -->
 
+            <ImageView
+                android:id="@+id/refresh"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:background="@drawable/refresh"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="vertical">
+
 
 
                 <TextView

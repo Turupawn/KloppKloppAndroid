@@ -1,6 +1,8 @@
 package klopp.klopp.klopp;
 
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,6 +27,7 @@ public class ScanBusinessSuccessfulActivity extends AppCompatActivity {
     Business business;
     NetworkImageView mNetworkImageView;
     ImageLoader mImageLoader;
+    MediaPlayer mPlayer;
 
     MyRegularText exit_button;
     MyRegularText message;
@@ -46,6 +49,9 @@ public class ScanBusinessSuccessfulActivity extends AppCompatActivity {
 
 
         mImageLoader = MySingleton.getInstance(BusinessActivity.main_activity).getImageLoader();
+
+        mPlayer = MediaPlayer.create(scan_business_successful_activity, R.raw.klopp);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         exit_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +125,8 @@ public class ScanBusinessSuccessfulActivity extends AppCompatActivity {
 
     void onRequestSuccsessful()
     {
+        mPlayer.start();
+
         mNetworkImageView.setImageUrl(BusinessActivity.main_activity.getString(R.string.base_url) + business.image_url, mImageLoader);
         message.setText("¡Has solicitado Klopps exitosamente!");
     }

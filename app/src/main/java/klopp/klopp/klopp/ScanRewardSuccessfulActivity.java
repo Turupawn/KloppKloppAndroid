@@ -1,6 +1,8 @@
 package klopp.klopp.klopp;
 
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,6 +28,7 @@ public class ScanRewardSuccessfulActivity extends AppCompatActivity {
     Reward reward;
     NetworkImageView mNetworkImageView;
     ImageLoader mImageLoader;
+    MediaPlayer mPlayer;
 
     MyRegularText exit_button;
     MyRegularText message;
@@ -47,6 +50,9 @@ public class ScanRewardSuccessfulActivity extends AppCompatActivity {
         reward = RewardsActivity.rewards_list.get(Integer.parseInt(getIntent().getStringExtra("reward_index")));
 
         mImageLoader = MySingleton.getInstance(BusinessActivity.main_activity).getImageLoader();
+
+        mPlayer = MediaPlayer.create(scan_reward_successful_activity, R.raw.klopp);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         exit_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +126,8 @@ public class ScanRewardSuccessfulActivity extends AppCompatActivity {
 
     void onRequestSuccsessful()
     {
+        mPlayer.start();
+
         mNetworkImageView.setImageUrl(BusinessActivity.main_activity.getString(R.string.base_url) + business.image_url, mImageLoader);
         message.setText("¡Has solicitado un " + reward.name + " exitosamente!");
     }

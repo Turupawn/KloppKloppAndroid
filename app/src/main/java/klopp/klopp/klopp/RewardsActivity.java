@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -20,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import klopp.klopp.klopp.R;
 
@@ -85,9 +87,47 @@ public class RewardsActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        Intent it = new Intent(RewardsActivity.this, ScanRewardActivity.class);
-        it.putExtra("reward_index", position+"");
-        startActivity(it);
+        Business business = BusinessActivity.business_list.get(0);
+        boolean user_has_enough_klopps = false;
+
+        for(int i=0;i<BusinessActivity.business_list.size();i++)
+        {
+            if(BusinessActivity.business_list.get(i).id == rewards_list.get(position).business_id)
+            {
+                business = BusinessActivity.business_list.get(i);
+            }
+        }
+
+        if(business != null && business.current_user_klopps >= rewards_list.get(position).klopps)
+        {
+            user_has_enough_klopps = true;
+        }
+
+        if(user_has_enough_klopps)
+        {
+            Intent it = new Intent(RewardsActivity.this, ScanRewardActivity.class);
+            it.putExtra("reward_index", position + "");
+            startActivity(it);
+        }else
+        {
+            String[] messages = {"No tienes los klopps suficientes para comprar",
+                    "Intenta de nuevo cuando tengas los klopps bien puestos",
+                    "Tu tanque de Klopps está vacío",
+                    "Haz más klopp klopp antes de reclamar el premio",
+                    "Los klopps no crecen en los árboles",
+                    "Consigue más Klopps, sí es que puedes",
+                    "Ni un cono de a  L. 11.00 puedes reclamar con esos Klopps",
+                    "Los klopps que tienes no equivalen al tamaño de tus deseos",
+                    "Ser o no ser. La cuestión es que no tienes Klopps para canjear",
+                    "En la vida hay ganadores y perdedores y a tí te hacen falta Klopps para ganar"
+            };
+
+            int idx = new Random().nextInt(messages.length);
+            String random_message = (messages[idx]);
+
+            Toast.makeText(this, random_message,
+                    Toast.LENGTH_LONG).show();
+        }
 
     }
 
