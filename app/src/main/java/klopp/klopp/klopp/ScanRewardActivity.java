@@ -1,6 +1,10 @@
 package klopp.klopp.klopp;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -13,15 +17,24 @@ public class ScanRewardActivity extends AppCompatActivity implements ZXingScanne
     static String SCANNED_TEXT;
     Reward reward;
     int reward_index;
+    static int REQUEST_CAMERA_ACCESS = 666;
 
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
-        mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
-        setContentView(mScannerView);                // Set the scanner view as the content view
 
         reward_index = Integer.parseInt(getIntent().getStringExtra("reward_index"));
         reward = RewardsActivity.rewards_list.get(reward_index);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                this.checkSelfPermission(Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, this.REQUEST_CAMERA_ACCESS);
+
+        } else {
+            mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
+            setContentView(mScannerView);                // Set the scanner view as the content view
+        }
     }
 
     @Override
@@ -65,5 +78,17 @@ public class ScanRewardActivity extends AppCompatActivity implements ZXingScanne
         this.finish();
 
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == this.REQUEST_CAMERA_ACCESS) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
+                setContentView(mScannerView);                // Set the scanner view as the content view
+            }
+        }
     }
 }
