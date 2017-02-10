@@ -14,4 +14,14 @@
     <string name="title_activity_scan_fail">ScanFailActivity</string>
     <string name="title_activity_scan_reward">ScanRewardActivity</string>
     <string name="title_activity_scan_reward_successful">ScanRewardSuccessfulActivity</string>
+    <string name="incorrect_email_message">Error: Ingresa de nuevo tu correo</string>
+    <string name="incorrect_password_message">Error: Ingresa de nuevo tu contraseña</string>
+    <string name="login_error_message">Error al iniciar sesión</string>
+    <string name="blank_email_message">Error: Ingresa tu correo</string>
+    <string name="blank_password_message">Error: Ingresa un password</string>
+    <string name="taken_username_message">Error: El nombre usuario ya ha sido registrado anteriormente, intenta con otro</string>
+    <string name="taken_email_message">Error: El correo ya ha sido registrado anteriormente</string>
+    <string name="invalid_email_message">Error: Vuelve a ingresar el correo</string>
+    <string name="short_password_message">Error: Ingresa un password de al menos 6 caracteres</string>
+    <string name="signup_error_message">Error al crear usuario</string>
 </resources>

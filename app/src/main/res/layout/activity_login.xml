@@ -1,147 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
 
 
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="260dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-
-
-        <ImageView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="260dp"
-            android:background="@drawable/login_banner"/>
+            android:layout_height="260dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:background="@drawable/login_banner"/>
 
 
-        <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center|bottom"
+                android:background="#80000000">
+
+                <TextView
+                    android:id="@+id/signin"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Iniciar sesión"
+                    android:textColor="@color/dark_primary_color"
+                    android:textSize="16dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="16dp"/>
+
+
+
+                <TextView
+                    android:id="@+id/signup"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Crear cuenta"
+                    android:textColor="#fff"
+                    android:textSize="16dp"
+                    android:padding="16dp"/>
+
+
+            </LinearLayout>
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_white"
+                android:layout_gravity="center|top"
+                android:layout_marginTop="60dp"/>
+
+
+
+        </FrameLayout>
+
+
+        <klopp.klopp.klopp.customfonts.MyEditText
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center|bottom"
+            android:hint="E-mail"
+            android:inputType="text"
+            android:textColor="#000"
+            android:background="#f0f0f4"
+            android:padding="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:drawableLeft="@drawable/ic_shapes_2"
+            android:drawablePadding="16dp"
 
-            android:background="#80000000">
-
-
-
-            <TextView
-                android:id="@+id/signin"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Iniciar sesión"
-                android:textColor="@color/dark_primary_color"
-                android:textSize="16dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="16dp"/>
+            />
 
 
-
-            <TextView
-                android:id="@+id/signup"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Crear cuenta"
-                android:textColor="#fff"
-                android:textSize="16dp"
-                android:padding="16dp"/>
-
-
-        </LinearLayout>
-
-
-        <ImageView
-            android:layout_width="wrap_content"
+        <klopp.klopp.klopp.customfonts.MyEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_white"
-            android:layout_gravity="center|top"
-            android:layout_marginTop="60dp"/>
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:background="#f0f0f4"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:padding="12dp"
+            android:drawablePadding="16dp"
+            android:drawableLeft="@drawable/ic_tool_6"
+            />
 
 
+        <klopp.klopp.klopp.customfonts.MyRegularText
+            android:id="@+id/buttonsignin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:textAlignment="center"
+            android:padding="14dp"
+            android:text="Iniciar sesión"
+            android:textSize="16dp"
+            android:textColor="#fff"
+            />
 
-    </FrameLayout>
+        <klopp.klopp.klopp.customfonts.MyRegularText
+            android:id="@+id/login_error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:textAlignment="center"
+            android:padding="14dp"
+            android:text=""
+            android:textSize="16dp"
+            android:textColor="@color/text_and_icons"
+            />
 
+    </LinearLayout>
 
-
-
-
-
-    <klopp.klopp.klopp.customfonts.MyEditText
-        android:id="@+id/email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="E-mail"
-        android:inputType="text"
-        android:textColor="#000"
-        android:background="#f0f0f4"
-        android:padding="12dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:drawableLeft="@drawable/ic_shapes_2"
-        android:drawablePadding="16dp"
-
-        />
-
-
-    <klopp.klopp.klopp.customfonts.MyEditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:background="#f0f0f4"
-        android:textColor="#000"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:padding="12dp"
-        android:drawablePadding="16dp"
-        android:drawableLeft="@drawable/ic_tool_6"
-        />
-
-
-    <klopp.klopp.klopp.customfonts.MyRegularText
-        android:id="@+id/buttonsignin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:textAlignment="center"
-        android:padding="14dp"
-        android:text="Iniciar sesión"
-        android:textSize="16dp"
-        android:textColor="#fff"
-        />
-
-    <klopp.klopp.klopp.customfonts.MyRegularText
-        android:id="@+id/login_error_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:textAlignment="center"
-        android:padding="14dp"
-        android:text=""
-        android:textSize="16dp"
-        android:textColor="@color/text_and_icons"
-        />
-
-
-</LinearLayout>
-
+</ScrollView>

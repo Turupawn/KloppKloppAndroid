@@ -51,7 +51,7 @@ public class SignUp extends AppCompatActivity {
         email = (EditText)findViewById(R.id.email);
         password = (EditText)findViewById(R.id.password);
         user = (EditText)findViewById(R.id.user);
-        signup_error_message = (MyRegularText) findViewById(R.id.login_error_message);
+        signup_error_message = (MyRegularText) findViewById(R.id.signup_error_message);
 
         signup_button = (MyRegularText)findViewById(R.id.buttonsignup);
 
@@ -69,6 +69,7 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                signup_error_message.setText("Creando usuario...");
                 String url = getString(R.string.base_url) + "/api/v1/users";
 
                 JSONObject user_param = new JSONObject();
@@ -82,29 +83,45 @@ public class SignUp extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                Log.d("Jsontest", params.toString());
-
                 JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, params.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            String auth_token = response.getJSONObject("data").getString("authentication_token");
-                            String username = response.getJSONObject("data").getString("username");
+                            if(response.getString("status").equals("ok")) {
+                                String auth_token = response.getJSONObject("data").getString("authentication_token");
+                                String username = response.getJSONObject("data").getString("username");
 
-                            SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE).edit();
-                            editor.putString(getString(R.string.email_preferences_key), email.getText().toString());
-                            editor.putString(getString(R.string.username_preferences_key), username);
-                            editor.putString(getString(R.string.token_preferences_key), auth_token);
-                            editor.commit();
+                                SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE).edit();
+                                editor.putString(getString(R.string.email_preferences_key), email.getText().toString());
+                                editor.putString(getString(R.string.username_preferences_key), username);
+                                editor.putString(getString(R.string.token_preferences_key), auth_token);
+                                editor.commit();
 
-                            Intent it = new Intent(SignUp.this, BusinessActivity.class);
-                            startActivity(it);
-                            signup_class.finish();
+                                Intent it = new Intent(SignUp.this, BusinessActivity.class);
+                                startActivity(it);
+                                signup_class.finish();
+                            }else
+                            {
+                                if(response.getString("error").equals("Email has already been taken"))
+                                    signup_error_message.setText(getString(R.string.taken_email_message));
+                                else if(response.getString("error").equals("Email can't be blank"))
+                                    signup_error_message.setText(R.string.blank_email_message);
+                                else if(response.getString("error").equals("Password can't be blank"))
+                                    signup_error_message.setText(R.string.blank_password_message);
+                                else if(response.getString("error").equals("Email is invalid"))
+                                    signup_error_message.setText(R.string.invalid_email_message);
+                                else if(response.getString("error").equals("Password is too short (minimum is 6 characters)"))
+                                    signup_error_message.setText(R.string.short_password_message);
+                                else if(response.getString("error").equals("Username already exists"))
+                                    signup_error_message.setText(R.string.taken_username_message);
+                                else
+                                    signup_error_message.setText(response.getString("error"));
+                            }
 
                         } catch (Exception e) {
                             e.printStackTrace();
 
-                            signup_error_message.setText("Error al crear usuario.");
+                            signup_error_message.setText(R.string.signup_error_message);
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -112,7 +129,7 @@ public class SignUp extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
 
-                        signup_error_message.setText("Error al crear usuario.");
+                        signup_error_message.setText(R.string.signup_error_message);
                     }
                 });
                 Volley.newRequestQueue(SignUp.this).add(jsonRequest);

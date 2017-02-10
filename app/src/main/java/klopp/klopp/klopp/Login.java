@@ -31,6 +31,7 @@ public class Login extends AppCompatActivity {
     private TextView account;
     private EditText email;
     private EditText password;
+    MyRegularText login_error_message;
 
     MyRegularText login_button;
 
@@ -49,8 +50,20 @@ public class Login extends AppCompatActivity {
         password = (EditText)findViewById(R.id.password);
 
         login_button = (MyRegularText)findViewById(R.id.buttonsignin);
+        login_error_message = (MyRegularText)findViewById(R.id.login_error_message);
 
         login_class = this;
+
+        SharedPreferences prefs = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE);
+        String email_pref = prefs.getString(getString(R.string.email_preferences_key), null);
+        String token_pref = prefs.getString(getString(R.string.token_preferences_key), null);
+
+        if(email_pref!=null && token_pref!=null)
+        {
+            Intent it = new Intent(Login.this, BusinessActivity.class);
+            startActivity(it);
+            login_class.finish();
+        }
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +79,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                login_error_message.setText("Iniciando sesión...");
                 String url = getString(R.string.base_url) + "/api/v1/users/sign_in";
 
                 JSONObject user_param = new JSONObject();
@@ -78,35 +92,44 @@ public class Login extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                Log.d("Jsontest", params.toString());
-
                 JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, params.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            String auth_token = response.getJSONObject("user").getString("authentication_token");
-                            String username = response.getJSONObject("user").getString("username");
+                            if(response.getString("status").equals("ok"))
+                            {
+                                String auth_token = response.getJSONObject("user").getString("authentication_token");
+                                String username = response.getJSONObject("user").getString("username");
 
-                            SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE).edit();
-                            editor.putString(getString(R.string.email_preferences_key), email.getText().toString());
-                            editor.putString(getString(R.string.username_preferences_key), username);
-                            editor.putString(getString(R.string.token_preferences_key), auth_token);
-                            editor.commit();
+                                SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE).edit();
+                                editor.putString(getString(R.string.email_preferences_key), email.getText().toString());
+                                editor.putString(getString(R.string.username_preferences_key), username);
+                                editor.putString(getString(R.string.token_preferences_key), auth_token);
+                                editor.commit();
 
-                            Intent it = new Intent(Login.this, BusinessActivity.class);
-                            startActivity(it);
-                            login_class.finish();
+                                Intent it = new Intent(Login.this, BusinessActivity.class);
+                                startActivity(it);
+                                login_class.finish();
+                            }else
+                            {
+                                if(response.getString("error").equals("User does not exists"))
+                                    login_error_message.setText(getString(R.string.incorrect_email_message));
+                                else if(response.getString("error").equals("Incorrect password"))
+                                    login_error_message.setText(R.string.incorrect_password_message);
+                                else
+                                    login_error_message.setText(response.getString("error"));
+                            }
 
                         }catch(Exception e)
                         {
+                            login_error_message.setText(R.string.login_error_message);
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
-                        MyRegularText login_error_message = (MyRegularText)findViewById(R.id.login_error_message);
-                        login_error_message.setText("Error al iniciar sesión.");
+                        login_error_message.setText(R.string.login_error_message);
                     }
                 });
                 Volley.newRequestQueue(Login.this).add(jsonRequest);

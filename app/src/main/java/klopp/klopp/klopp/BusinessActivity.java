@@ -55,11 +55,25 @@ public class BusinessActivity extends ListActivity {
             }
         });
 
+        ImageView logout = (ImageView)findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.preferences_file), MODE_PRIVATE).edit();
+                editor.putString(getString(R.string.email_preferences_key), null);
+                editor.putString(getString(R.string.username_preferences_key), null);
+                editor.putString(getString(R.string.token_preferences_key), null);
+                editor.commit();
+
+                Intent it = new Intent(BusinessActivity.this, Login.class);
+                startActivity(it);
+                main_activity.finish();
+            }
+        });
+
+
         ImageView refresh = (ImageView)findViewById(R.id.refresh);
         refresh.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("Orale", "Testy");
-
                  main_activity.adapter=new BusinessAdapter(main_activity,
                         R.layout.business_row,
                         business_list);
@@ -181,7 +195,7 @@ public class BusinessActivity extends ListActivity {
     }
 
     public void refresh(View view) {
-        Log.d("Orale","Testy");
+        Log.d("Orale", "Testy");
         /*
         adapter=new BusinessAdapter(this,
                 R.layout.business_row,

@@ -32,14 +32,27 @@
                 android:scaleType="fitXY"
                 android:background="#99000000"/>
 -->
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/refresh"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginLeft="2dp"
-                android:background="@drawable/refresh"/>
+                <ImageView
+                    android:id="@+id/refresh"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_refresh"/>
+
+                <ImageView
+                    android:id="@+id/logout"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/ic_sign_out"/>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
