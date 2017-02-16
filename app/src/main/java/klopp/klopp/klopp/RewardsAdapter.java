@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -38,6 +39,7 @@ public class RewardsAdapter  extends ArrayAdapter<Reward> {
         ImageLoader mImageLoader;
         NetworkImageView mNetworkImageView;
         mNetworkImageView = (NetworkImageView)convertView.findViewById(R.id.imagix);
+        mNetworkImageView.setScaleType(NetworkImageView.ScaleType.CENTER_CROP);
         mImageLoader = MySingleton.getInstance(BusinessActivity.main_activity).getImageLoader();
         String image_url = BusinessActivity.main_activity.getString(R.string.base_url)+getItem(position).image_url;
         mNetworkImageView.setImageUrl(image_url, mImageLoader);

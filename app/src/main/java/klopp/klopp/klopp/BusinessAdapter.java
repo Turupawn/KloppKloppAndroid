@@ -38,6 +38,7 @@ class BusinessAdapter extends ArrayAdapter<Business> {
         ImageLoader mImageLoader;
         NetworkImageView mNetworkImageView;
         mNetworkImageView = (NetworkImageView)convertView.findViewById(R.id.imagix);
+        mNetworkImageView.setScaleType(NetworkImageView.ScaleType.CENTER_CROP);
         mImageLoader = MySingleton.getInstance(BusinessActivity.main_activity).getImageLoader();
         String image_url = BusinessActivity.main_activity.getString(R.string.base_url)+getItem(position).image_url;
         mNetworkImageView.setImageUrl(image_url, mImageLoader);
