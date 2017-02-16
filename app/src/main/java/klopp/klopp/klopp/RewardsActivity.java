@@ -1,9 +1,12 @@
 package klopp.klopp.klopp;
 
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -110,25 +113,31 @@ public class RewardsActivity extends ListActivity {
             startActivity(it);
         }else
         {
-            String[] messages = {"No tienes los klopps suficientes para comprar",
-                    "Intenta de nuevo cuando tengas los klopps bien puestos",
-                    "Tu tanque de Klopps está vacío",
-                    "Haz más klopp klopp antes de reclamar el premio",
-                    "Los klopps no crecen en los árboles",
-                    "Consigue más Klopps, sí es que puedes",
-                    "Ni un cono de a  L. 11.00 puedes reclamar con esos Klopps",
-                    "Los klopps que tienes no equivalen al tamaño de tus deseos",
-                    "Ser o no ser. La cuestión es que no tienes Klopps para canjear",
-                    "En la vida hay ganadores y perdedores y a tí te hacen falta Klopps para ganar"
-            };
+            Resources res = getResources();
+            String[] messages = res.getStringArray(R.array.rewards_messages);
 
             int idx = new Random().nextInt(messages.length);
-            String random_message = (messages[idx]);
-
-            Toast.makeText(this, random_message,
-                    Toast.LENGTH_LONG).show();
+            messageDialog(messages[idx]);
         }
 
+    }
+
+    public void messageDialog(String message){
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(message);
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                getString(R.string.ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     @Override

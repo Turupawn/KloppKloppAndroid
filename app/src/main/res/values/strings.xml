@@ -24,4 +24,18 @@
     <string name="invalid_email_message">Error: Vuelve a ingresar el correo</string>
     <string name="short_password_message">Error: Ingresa un password de al menos 6 caracteres</string>
     <string name="signup_error_message">Error al crear usuario</string>
+    <string name="ok">OK</string>
+
+    <string-array name="rewards_messages">
+            <item>No tienes los klopps suficientes para comprar</item>
+            <item>Intenta de nuevo cuando tengas los klopps bien puestos</item>
+            <item>Tu tanque de Klopps está vacío</item>
+            <item>Haz más klopp klopp antes de reclamar el premio</item>
+            <item>Los klopps no crecen en los árboles</item>
+            <item>Consigue más Klopps, sí es que puedes</item>
+            <item>Ni un cono de a  L. 11.00 puedes reclamar con esos Klopps</item>
+            <item>Los klopps que tienes no equivalen al tamaño de tus deseos</item>
+            <item>Ser o no ser. La cuestión es que no tienes Klopps para canjear</item>
+            <item>En la vida hay ganadores y perdedores y a tí te hacen falta Klopps para ganar</item>
+    </string-array>
 </resources>
