@@ -33,6 +33,7 @@ public class BusinessActivity extends ListActivity {
     ArrayAdapter<Business> adapter;
     TextView username;
     SharedPreferences prefs;
+    boolean refresh_available = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,29 +68,32 @@ public class BusinessActivity extends ListActivity {
         });
 
 
-        ImageView refresh = (ImageView) findViewById(R.id.refresh);
+        final ImageView refresh = (ImageView) findViewById(R.id.refresh);
         refresh.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                main_activity.adapter = new BusinessAdapter(main_activity,
-                        R.layout.business_row,
-                        business_list);
-                setListAdapter(adapter);
-
-                load();
+                refresh();
             }
         });
-
-        adapter = new BusinessAdapter(this,
-                R.layout.business_row,
-                business_list);
-        setListAdapter(adapter);
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        load();
+        refresh();
+    }
+
+    void refresh()
+    {
+        if(refresh_available)
+        {
+            refresh_available = false;
+            main_activity.adapter = new BusinessAdapter(main_activity,
+                    R.layout.business_row,
+                    business_list);
+            setListAdapter(adapter);
+            load();
+        }
     }
 
     void setBusinesses(String email, String auth_token) {
@@ -115,13 +119,15 @@ public class BusinessActivity extends ListActivity {
                     adapter.notifyDataSetChanged();
                 } catch (Exception e) {
 
+                }finally {
+                    refresh_available = true;
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                //TODO: handle failure
+                refresh_available = true;
             }
         });
 
