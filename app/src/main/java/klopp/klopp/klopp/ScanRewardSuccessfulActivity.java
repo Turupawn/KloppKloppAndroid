@@ -108,17 +108,27 @@ public class ScanRewardSuccessfulActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    onRequestSuccsessful();
+                    if (response.getString("status").equals("ok"))
+                    {
+                        onRequestSuccsessful();
+                    } else if(response.getString("status").equals("unprocessable_entity")
+                            && response.getString("error").equals("Previous request found"))
+                    {
+                        message.setText("Ya has enviado una solicitud anteriormente");
+                    }else
+                    {
+                        message.setText("Error al enviar la solicitud");
+                    }
                 }catch(Exception e)
                 {
-                    message.setText("Error");
+                    message.setText("Error al enviar la solicitud");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                message.setText("Error");
+                message.setText("Error al enviar la solicitud");
             }
         });
         Volley.newRequestQueue(ScanRewardSuccessfulActivity.this).add(jsonRequest);

@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -107,17 +108,29 @@ public class ScanBusinessSuccessfulActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    onRequestSuccsessful();
+                    if (response.getString("status").equals("ok"))
+                    {
+                        onRequestSuccsessful();
+                    } else if(response.getString("status").equals("unprocessable_entity")
+                            && response.getString("error").equals("Previous request found"))
+                    {
+                        message.setText("Ya has enviado una solicitud anteriormente");
+                    }else
+                    {
+                        message.setText("Error al enviar la solicitud");
+                    }
                 }catch(Exception e)
                 {
-                    message.setText("Error");
+                    message.setText("Error al enviar la solicitud");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                message.setText("Error");
+//                Log.d("XX", error.getMessage());
+                Log.d("XX", error.networkResponse.data.toString());
+                message.setText("Error al enviar la solicitud");
             }
         });
         Volley.newRequestQueue(ScanBusinessSuccessfulActivity.this).add(jsonRequest);
